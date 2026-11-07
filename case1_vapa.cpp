@@ -88,3 +88,31 @@ PaymentResponse processPayment(const PaymentRequest& req) {
         return resp;
     }
 // рассмотрение других сценариев
+// сценарий отклонения карты 
+    if (scenario == 8) {
+        resp.success = false;
+        resp.errorCode = "CARD_DECLINED";
+        resp.message = "Карта отклонена банком.";
+        return resp;
+    }
+
+    // сценарий успеха
+    resp.success = true;
+    resp.message = "Банк одобрил операцию.";
+    return resp;
+}
+// защита от повторов
+bool isDuplicateOrder(const string& orderId) {
+    ifstream db("orders_db.txt");
+    if (!db.is_open()) return false;
+    string line;
+    // ищем orderId среди сохраненных
+    while (getline(db, line)) {
+        if (line == orderId) {
+            db.close();
+            return true;
+        }
+    }
+    db.close();
+    return false;
+}
