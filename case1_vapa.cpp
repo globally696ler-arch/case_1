@@ -50,3 +50,41 @@ bool checkLuhn(const string &cardNumber)
     // карта валидна, если сумма кратна 10
     return (sum % 10 == 0);
 }
+
+// эмулятор банка
+PaymentResponse processPayment(const PaymentRequest& req) {
+    PaymentResponse resp;
+
+    // считаем "хэш" от orderId (сумма кодов символов)
+    int hash = 0;
+    for (char c : req.orderId) {
+        hash += (int)c;
+    }
+    int scenario = hash % 10; // 0..9
+
+    // проверка на таймаут
+    if (scenario == 9) {
+        resp.success = false;
+        resp.errorCode = "TIMEOUT";
+        resp.message = "Превышено время ожидания ответа от банка.";
+        return resp;
+    }
+// рассмотрение ситуации таймаута
+
+// проверка подтверждения (если сумма > 10000)
+    if (req.amount > 10000.0 && !req.isConfirmed) {
+        resp.success = false;
+        resp.errorCode = "NOT_CONFIRMED";
+        resp.message = "Операция не подтверждена.";
+        return resp;
+    }
+
+    // проверка на недостаток средств
+    double sum1 = 15400.0;
+    if (req.amount > sum1 || scenario == 7) {
+        resp.success = false;
+        resp.errorCode = "INSUFFICIENT_FUNDS";
+        resp.message = "Недостаточно средств.";
+        return resp;
+    }
+// рассмотрение других сценариев
