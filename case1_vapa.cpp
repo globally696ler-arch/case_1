@@ -116,3 +116,214 @@ bool isDuplicateOrder(const string& orderId) {
     db.close();
     return false;
 }
+// сохраняем id заказа в файл
+void saveOrderId(const string& orderId) {
+    ofstream db("orders_db.txt", ios::app);
+    if (db.is_open()) db << orderId << endl;
+}
+
+// запись в csv
+void logToCSV(const PaymentRequest& req, const PaymentResponse& resp) {
+    ofstream csv("payments_out.csv", ios::app);
+    if (csv.is_open()) {
+        csv << req.orderId << "," << req.amount << "," << req.currency << "," 
+            << (resp.success ? "SUCCESS" : "FAIL") << "," << resp.errorCode << "\n";
+    }
+}
+
+int main() {
+    // устанавливаем русскую локаль для корректного вывода
+    setlocale(LC_ALL, "Russian");
+    srand(time(NULL));
+    double sum1 = 15400.0;
+    
+    PaymentRequest req;
+    req.purpose = "Медицинская услуга";
+    req.recipient = "MED_SERVICE";
+    req.currency = "RUB";
+    req.isConfirmed = false;
+
+    cout << "=== Перевод с карты ===\n\n";
+    double sum2 = 0.0;
+    string input;
+
+    // генерируем id заказа из времени
+    req.orderId = "order_" + to_string(time(nullptr)); 
+    
+    // проверка на дубль
+    if (isDuplicateOrder(req.orderId)) {
+        cout << "Ошибка: Дубликат заказа (HTTP 409 Conflict)\n";
+        return 1;
+    }
+
+    // ввод данных карты
+    cout << "\nВведите данные карты (3 элемента):\n";
+    while(true){
+        cout << "1) Номер карты: ";
+        getline(cin, req.cardNumber);
+        // проверяем длину номера карты
+        if (req.cardNumber.length() >= 13 && req.cardNumber.length() <= 19){
+            bool onlydigits = true;
+            // проверяем, что все символы - цифры
+            for (char c: req.cardNumber){
+                if (!isdigit(c)){
+                    onlydigits = false;
+                    break;
+                }
+            }
+            if (!onlydigits){
+                cout<< "Ошибка.Номер карты должен содержать только цифры.\n" ;
+                continue;
+            }    
+            // проверяем карту по алгоритму Луна
+            if (!checkLuhn(req.cardNumber)){
+                cout<<"Ошибка.Карта не действительна.\n" ;
+                continue;
+            }
+            break;
+        } else {
+            cout<<"Ошибка при вводе данных.\n";
+        }
+    }
+
+    // срок действия
+    while(true){
+    cout << "2) Срок действия (ММ/ГГ).\n Два числа через пробел: ";
+    getline(cin, req.expiryDate);
+    // ожидаем формат из 5 символов
+    if (req.expiryDate.length() == 5) {
+        int year = stoi(req.expiryDate.substr(3,2));
+        int month = stoi(req.expiryDate.substr(0,2));
+        if (req.expiryDate.find_first_not_of("0123456789 ") != string::npos) {
+            cout << "Ошибка!Cрок действия должен содержать только цифры." << endl;
+            continue;
+        }
+        // проверяем корректность месяца
+        if (month < 1 || month > 12){
+            cout << "Некорректные данные.\n";
+            return 2; // ошибка валидации
+        } else if (year < 26 || (year == 26 && month <= 11)|| (year>36)){
+            // проверяем, что срок еще не истек
+            cout << "Срок действия карты недействителен.\n";
+            return 2;
+        } else {
+            cout << "Срок действия корректен.\n";
+        }
+    } else {
+        cout<<"Ошибка при вводе данных.\n";
+        return 2;
+    }
+    }
+    // cvv
+    while (true){
+        cout << "3) CVV-код: ";
+        getline(cin, req.cvv);
+        // проверяем, что cvv состоит только из цифр
+        if (req.cvv.find_first_not_of("0123456789") != string::npos) {
+            cout << "Ошибка!CVV должен содержать только цифры." << endl;
+            continue;
+        }
+        // cvv должен быть ровно 3 цифры
+        if (req.cvv.length() != 3){
+            cout << "Ошибка при вводе данных.\n";
+            continue;
+        }
+        // имитация проверки карты
+        cout << "Проверка карты. Подождите пару секунд";
+        cout.flush();
+        this_thread::sleep_for(chrono::seconds(1));
+        cout << " Готово.\n";
+        break;
+    }
+    // ввод суммы
+    while(true){
+        cout << "\nВведите сумму перевода: ";
+        getline(cin, input);
+        // допускаем только цифры, запятую и точку
+        if (input.find_first_not_of("0123456789,.") != string::npos) {
+            cout << "Ошибка! Сумма должна содержать только цифры." << endl;
+            continue;
+        }
+        // заменяем запятую на точку для корректного парсинга
+        for (char& c : input) { if (c == ',') c = '.'; }
+         size_t dotPos = input.find('.');
+        if (dotPos != string::npos) {
+            // Считаем, сколько символов находится после точки
+            int decimals = input.length() - dotPos - 1;
+            
+            // Если знаков больше 2 — выдаем ошибку
+            if (decimals > 2) {
+                cout << "Ошибка! Нельзя вводить больше 2 знаков после запятой (копеек)." << endl;
+                continue; // Просим ввести заново
+            }
+        }
+        try {
+            sum2 = stod(input); 
+            // проверяем допустимый диапазон суммы
+            if (sum2 > 0 && sum2 <= 1000000) {
+                req.amount = sum2;
+                break; 
+            } else {
+                cout << "Ошибка! Сумма должна быть от 0 до 1 000 000.\n";
+            } 
+        } catch (...) {
+            cout << "Ошибка! Некорректный ввод.\n";
+        }
+    }
+
+    // код подтверждения
+    bool confirmed = true;
+    if (req.amount > 10000.0) {
+        req.isConfirmed = false; // по умолчанию не подтверждено
+        int randomCode = rand() % 9000 + 1000;
+        string confirmCode = to_string(randomCode);
+
+        cout << "\nСумма перевода превышает 10000 RUB. Требуется подтверждение.\n";
+        cout << "[код из смс]: " << confirmCode << "\n";
+        cout << "Введите код из смс: "; 
+        string userCode;
+        getline(cin, userCode);
+        // сравниваем введенный код с сгенерированным
+        if (userCode != confirmCode) {
+            confirmed = false;
+            cout << "\nНеверный код подтверждения.\n";
+        } else {
+            confirmed = true;
+            cout << "\nКод подтверждения принят.\n";
+        }
+    }
+    req.isConfirmed = confirmed;
+
+    // отправка в банк
+    cout << "\nОтправка запроса в банк. Подождите пару секунд...\n";
+    this_thread::sleep_for(chrono::seconds(1));
+    
+    PaymentResponse resp = processPayment(req);
+    // сохраняем id заказа (если успех)
+    if (resp.success) saveOrderId(req.orderId);
+    // пишем в csv аудит
+    logToCSV(req, resp);
+    // вывод результата и коды выхода
+    // берем последние 4 цифры номера карты для маскирования
+    string last_four = req.cardNumber.substr(req.cardNumber.length() - 4);
+    
+    if (resp.success) {
+        cout << "\n" << resp.message << "\n";
+        cout << "Вывод: " << req.purpose << ", карта ****"<< last_four << ". " << req.amount << " " << req.currency << ".\n";
+        cout << req.recipient << ".\n";
+        cout << "Остаток: " << sum1 - req.amount << " RUB.\n";
+        cout << "Ваш идентификатор заказа: " << req.orderId << "\n";
+        return 0; // успех
+    } else {
+        cout << "\nОтказ.\n";
+        cout << "Код ошибки: " << resp.errorCode << "\n";
+        cout << "Причина: " << resp.message << "\n";
+        
+        // таймаут возвращает отдельный код выхода
+        if (resp.errorCode == "TIMEOUT") {
+            return 3; // код выхода 3 - таймаут
+        } else {
+            return 1; // код выхода 1 - отказ банка
+        }
+    }
+}
