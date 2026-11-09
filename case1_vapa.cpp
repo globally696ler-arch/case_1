@@ -138,7 +138,6 @@ int main() {
     double sum1 = 15400.0;
     
     PaymentRequest req;
-    req.purpose = "Медицинская услуга";
     req.recipient = "MED_SERVICE";
     req.currency = "RUB";
     req.isConfirmed = false;
@@ -155,6 +154,46 @@ int main() {
         cout << "Ошибка: Дубликат заказа (HTTP 409 Conflict)\n";
         return 1;
     }
+
+    cout<< "Выберите услугу!";
+    cout<< "1)Анализы";
+    cout<<" 2500.0 RUB\n";
+    cout<< "2)МРТ";
+    cout<<" 8000.0 RUB\n";
+    cout<< "3)Консультация";
+    cout<<" 1000.0 RUB\n";
+    cout<< "4)Другое\n";
+    cout<<"Ваш выбор :";
+
+
+    int choice;
+    cin>>choice;
+    cin.ignore();
+    switch(choice){
+        case 1:
+            req.purpose = "Анализы";
+            req.amount = 2500.0;
+            sum2=2500.0;
+            break;
+        case 2:
+            req.purpose = "МРТ";
+            req.amount = 8000.0;
+            sum2=8000.0;
+            break;
+        case 3:
+            req.purpose = "Консультация";
+            req.amount = 1000.0;
+            sum2=1000.0;
+            break;
+        case 4:
+            req.purpose = "Другое";
+            break;
+            default:
+        cout<<"Неверный ввод. Будет выбрано 'Другое' ";
+        req.purpose="Другое";
+    }
+
+
 
     // ввод данных карты
     cout << "\nВведите данные карты (3 элемента):\n";
@@ -201,16 +240,16 @@ int main() {
         // проверяем корректность месяца
         if (month < 1 || month > 12){
             cout << "Некорректные данные.\n";
-            return 2; // ошибка валидации
+            continue; // ошибка валидации
         } else if (year < 26 || (year == 26 && month <= 11)|| (year>36)){
             // проверяем, что срок еще не истек
             cout << "Срок действия карты недействителен.\n";
             return 2;
-        } else {
+        }else{
             cout << "Срок действия корректен.\n";
             break;
         }
-    } else {
+    }else{
         cout<<"Ошибка при вводе данных.\n";
         return 2;
     }
@@ -237,7 +276,18 @@ int main() {
         break;
     }
     // ввод суммы
-    while(true){
+    if ((choice==4)||choice<1 || choice>4){
+        while(true){
+            cout<<"Введите название услуги : ";
+            getline(cin , req.purpose);
+            if (req.purpose.empty()){
+                cout<< "Ошибка! Название не может быть пустым";
+                continue;
+            }
+            break;
+        }
+    
+        while(true){
         cout << "\nВведите сумму перевода: ";
         getline(cin, input);
         // допускаем только цифры, запятую и точку
@@ -251,11 +301,11 @@ int main() {
         if (dotPos != string::npos) {
             // Считаем, сколько символов находится после точки
             int decimals = input.length() - dotPos - 1;
-            
             // Если знаков больше 2 — выдаем ошибку
             if (decimals > 2) {
                 cout << "Ошибка! Нельзя вводить больше 2 знаков после запятой (копеек)." << endl;
                 continue; // Просим ввести заново
+            
             }
         }
         try {
@@ -263,7 +313,7 @@ int main() {
             // проверяем допустимый диапазон суммы
             if (sum2 > 0 && sum2 <= 1000000) {
                 req.amount = sum2;
-                break; 
+             break; 
             } else {
                 cout << "Ошибка! Сумма должна быть от 0 до 1 000 000.\n";
             } 
@@ -271,6 +321,11 @@ int main() {
             cout << "Ошибка! Некорректный ввод.\n";
         }
     }
+    }else{
+        cout<<"К оплате : "<<req.amount<<"RUB("<<req.purpose<<")\n";
+    }
+
+    
 
     // код подтверждения
     bool confirmed = true;
@@ -278,7 +333,6 @@ int main() {
         req.isConfirmed = false; // по умолчанию не подтверждено
         int randomCode = rand() % 9000 + 1000;
         string confirmCode = to_string(randomCode);
-
         cout << "\nСумма перевода превышает 10000 RUB. Требуется подтверждение.\n";
         cout << "[код из смс]: " << confirmCode << "\n";
         cout << "Введите код из смс: "; 
@@ -328,3 +382,4 @@ int main() {
         }
     }
 }
+
