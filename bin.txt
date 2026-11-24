@@ -1,0 +1,56 @@
+BIN,Brand,Type,Category,Issuer,IssuerPhone,IssuerUrl,isoCode2,isoCode3,CountryName
+220001,MIR,DEBIT,,"ПАО СБЕРБАНК",+78005555550,https://www.sberbank.ru,RU,RUS,RUSSIA
+220002,MIR,DEBIT,,"ПАО СБЕРБАНК",+78005555550,https://www.sberbank.ru,RU,RUS,RUSSIA
+220003,MIR,DEBIT,,"ПАО СБЕРБАНК",+78005555550,https://www.sberbank.ru,RU,RUS,RUSSIA
+220004,MIR,CREDIT,,"ПАО СБЕРБАНК",+78005555550,https://www.sberbank.ru,RU,RUS,RUSSIA
+220005,MIR,DEBIT,,"ПАО СБЕРБАНК",+78005555550,https://www.sberbank.ru,RU,RUS,RUSSIA
+220100,MIR,DEBIT,,"ПАО ВТБ",+78001002424,https://www.vtb.ru,RU,RUS,RUSSIA
+220101,MIR,CREDIT,,"ПАО ВТБ",+78001002424,https://www.vtb.ru,RU,RUS,RUSSIA
+220102,MIR,DEBIT,,"ПАО ВТБ",+78001002424,https://www.vtb.ru,RU,RUS,RUSSIA
+220103,MIR,DEBIT,,"ПАО ВТБ",+78001002424,https://www.vtb.ru,RU,RUS,RUSSIA
+220104,MIR,CREDIT,,"ПАО ВТБ",+78001002424,https://www.vtb.ru,RU,RUS,RUSSIA
+220200,MIR,DEBIT,,"АО АЛЬФА-БАНК",+74957888878,https://alfabank.ru,RU,RUS,RUSSIA
+220201,MIR,CREDIT,,"АО АЛЬФА-БАНК",+74957888878,https://alfabank.ru,RU,RUS,RUSSIA
+220202,MIR,DEBIT,,"АО АЛЬФА-БАНК",+74957888878,https://alfabank.ru,RU,RUS,RUSSIA
+220203,MIR,DEBIT,,"АО АЛЬФА-БАНК",+74957888878,https://alfabank.ru,RU,RUS,RUSSIA
+220204,MIR,CREDIT,,"АО АЛЬФА-БАНК",+74957888878,https://alfabank.ru,RU,RUS,RUSSIA
+220300,MIR,DEBIT,,"АО ТИНЬКОФФ БАНК",+78005557777,https://www.tinkoff.ru,RU,RUS,RUSSIA
+220301,MIR,CREDIT,,"АО ТИНЬКОФФ БАНК",+78005557777,https://www.tinkoff.ru,RU,RUS,RUSSIA
+220302,MIR,DEBIT,,"АО ТИНЬКОФФ БАНК",+78005557777,https://www.tinkoff.ru,RU,RUS,RUSSIA
+220303,MIR,DEBIT,,"АО ТИНЬКОФФ БАНК",+78005557777,https://www.tinkoff.ru,RU,RUS,RUSSIA
+220304,MIR,CREDIT,,"АО ТИНЬКОФФ БАНК",+78005557777,https://www.tinkoff.ru,RU,RUS,RUSSIA
+220400,MIR,DEBIT,,"ПАО РОСБАНК",+78002005434,https://www.rosbank.ru,RU,RUS,RUSSIA
+220401,MIR,CREDIT,,"ПАО РОСБАНК",+78002005434,https://www.rosbank.ru,RU,RUS,RUSSIA
+220402,MIR,DEBIT,,"ПАО РОСБАНК",+78002005434,https://www.rosbank.ru,RU,RUS,RUSSIA
+220403,MIR,DEBIT,,"ПАО РОСБАНК",+78002005434,https://www.rosbank.ru,RU,RUS,RUSSIA
+220404,MIR,CREDIT,,"ПАО РОСБАНК",+78002005434,https://www.rosbank.ru,RU,RUS,RUSSIA
+220500,MIR,DEBIT,,"ПАО ГАЗПРОМБАНК",+78001000707,https://www.gazprombank.ru,RU,RUS,RUSSIA
+220501,MIR,CREDIT,,"ПАО ГАЗПРОМБАНК",+78001000707,https://www.gazprombank.ru,RU,RUS,RUSSIA
+220502,MIR,DEBIT,,"ПАО ГАЗПРОМБАНК",+78001000707,https://www.gazprombank.ru,RU,RUS,RUSSIA
+220503,MIR,DEBIT,,"ПАО ГАЗПРОМБАНК",+78001000707,https://www.gazprombank.ru,RU,RUS,RUSSIA
+220504,MIR,CREDIT,,"ПАО ГАЗПРОМБАНК",+78001000707,https://www.gazprombank.ru,RU,RUS,RUSSIA
+220600,MIR,DEBIT,,"ПАО СОВКОМБАНК",+78002008000,https://sovcombank.ru,RU,RUS,RUSSIA
+220601,MIR,CREDIT,,"ПАО СОВКОМБАНК",+78002008000,https://sovcombank.ru,RU,RUS,RUSSIA
+220602,MIR,DEBIT,,"ПАО СОВКОМБАНК",+78002008000,https://sovcombank.ru,RU,RUS,RUSSIA
+220603,MIR,DEBIT,,"ПАО СОВКОМБАНК",+78002008000,https://sovcombank.ru,RU,RUS,RUSSIA
+220604,MIR,CREDIT,,"ПАО СОВКОМБАНК",+78002008000,https://sovcombank.ru,RU,RUS,RUSSIA
+220700,MIR,DEBIT,,"ПАО РАЙФФАЙЗЕНБАНК",+78007000000,https://www.raiffeisen.ru,RU,RUS,RUSSIA
+220701,MIR,CREDIT,,"ПАО РАЙФФАЙЗЕНБАНК",+78007000000,https://www.raiffeisen.ru,RU,RUS,RUSSIA
+220702,MIR,DEBIT,,"ПАО РАЙФФАЙЗЕНБАНК",+78007000000,https://www.raiffeisen.ru,RU,RUS,RUSSIA
+220703,MIR,DEBIT,,"ПАО РАЙФФАЙЗЕНБАНК",+78007000000,https://www.raiffeisen.ru,RU,RUS,RUSSIA
+220704,MIR,CREDIT,,"ПАО РАЙФФАЙЗЕНБАНК",+78007000000,https://www.raiffeisen.ru,RU,RUS,RUSSIA
+220800,MIR,DEBIT,,"ПАО ОТКРЫТИЕ",+78002003000,https://www.open.ru,RU,RUS,RUSSIA
+220801,MIR,CREDIT,,"ПАО ОТКРЫТИЕ",+78002003000,https://www.open.ru,RU,RUS,RUSSIA
+220802,MIR,DEBIT,,"ПАО ОТКРЫТИЕ",+78002003000,https://www.open.ru,RU,RUS,RUSSIA
+220803,MIR,DEBIT,,"ПАО ОТКРЫТИЕ",+78002003000,https://www.open.ru,RU,RUS,RUSSIA
+220804,MIR,CREDIT,,"ПАО ОТКРЫТИЕ",+78002003000,https://www.open.ru,RU,RUS,RUSSIA
+220900,MIR,DEBIT,,"ПАО ПРОМСВЯЗЬБАНК",+78003330400,https://www.psbank.ru,RU,RUS,RUSSIA
+220901,MIR,CREDIT,,"ПАО ПРОМСВЯЗЬБАНК",+78003330400,https://www.psbank.ru,RU,RUS,RUSSIA
+220902,MIR,DEBIT,,"ПАО ПРОМСВЯЗЬБАНК",+78003330400,https://www.psbank.ru,RU,RUS,RUSSIA
+220903,MIR,DEBIT,,"ПАО ПРОМСВЯЗЬБАНК",+78003330400,https://www.psbank.ru,RU,RUS,RUSSIA
+220904,MIR,CREDIT,,"ПАО ПРОМСВЯЗЬБАНК",+78003330400,https://www.psbank.ru,RU,RUS,RUSSIA
+221000,MIR,DEBIT,,"ПАО БАНК САНКТ-ПЕТЕРБУРГ",+78002006777,https://www.bspb.ru,RU,RUS,RUSSIA
+221001,MIR,CREDIT,,"ПАО БАНК САНКТ-ПЕТЕРБУРГ",+78002006777,https://www.bspb.ru,RU,RUS,RUSSIA
+221002,MIR,DEBIT,,"ПАО БАНК САНКТ-ПЕТЕРБУРГ",+78002006777,https://www.bspb.ru,RU,RUS,RUSSIA
+221003,MIR,DEBIT,,"ПАО БАНК САНКТ-ПЕТЕРБУРГ",+78002006777,https://www.bspb.ru,RU,RUS,RUSSIA
+221004,MIR,CREDIT,,"ПАО БАНК САНКТ-ПЕТЕРБУРГ",+78002006777,https://www.bspb.ru,RU,RUS,RUSSIA
